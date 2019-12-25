@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>Title</title>
+    {include file="public/header"}
+    <link rel="stylesheet" href="__ADMIN__/public/login.css" type="text/css" />
+</head>
+<body>
+<!-- 背景图片 -->
+<div class="login-back">
+    <img src="__ADMIN__/public/new_1.jpg" draggable="false" />
+</div>
+<div class="coutent">
+<!--标题-->
+    <div class="coutent-title">后台管理系统</div>
+    <form class="layui-form" action="{:url('index')}">
+        <div class="coutent-input float-no">
+            <label class="coutent-input-label"><i class="layui-icon layui-icon-username"></i></label>
+            <input name="username" type="text" lay-verify="username" class="coutent-input-t" value="" placeholder="请输入账号" />
+        </div>
+        <div class="coutent-input float-no">
+            <label class="coutent-input-label"><i class="layui-icon layui-icon-password"></i></label>
+            <input name="password" class="coutent-input-t" lay-verify="password" type="password" value="" placeholder="请输入账号" />
+        </div>
+        <div class="coutent-input-yzm float-no">
+            <div class="coutent-input ">
+                <label class="coutent-input-label"><i class="layui-icon layui-icon-vercode"></i></label>
+                <input name="yzm" class="coutent-input-t" lay-verify="yzm" type="text" value="" placeholder="验证码" />
+            </div>
+            <img src="{:url('yzm')}" class="login-yzm">
+        </div>
+        <div class="coutent-submit float-no">
+            <button type="button" class="layui-btn float-no"  lay-submit="" lay-filter="submit">登陆</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
+
+
+<script type="text/javascript" src="__ADMIN__/public/login.js"></script>

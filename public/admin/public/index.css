@@ -1,0 +1,26 @@
+/*.layui-layout-admin .layui-side{*/
+/*    top:0;*/
+/*    z-index: 9999;*/
+/*}*/
+.layui-layout-admin .layui-header{
+    background-color: #fff;
+    /*border-bottom: 1px solid #f0f0f0;*/
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+    behavior: url(./ie-css3.htc);
+}
+.layui-layout-admin .layui-logo{
+    background-color: #23262E;
+    color: #fff;
+}
+.layui-layout-admin .layui-side{
+    z-index: 9999;
+}
+.layui-header .layui-nav .layui-nav-item a{
+    color: #2F4056;
+}
+.layui-header .layui-layout-left .layui-nav-item a i{
+    font-size: 22px;
+}
+.layui-body{
+    padding: 15px;
+}

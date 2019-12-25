@@ -1,0 +1,72 @@
+*{
+    margin:0;
+    padding: 0;
+}
+img{
+    width: 100%;
+
+}
+body,.layui-header,.layui-body{
+    min-width:320px;
+}
+.layui-body{
+    background-color: #f2f2f2;
+}
+
+.float-no{
+    content:"";
+    clear:both;
+}
+body .layui-layout-admin .layui-body{
+    bottom: 0;
+}
+.tooltip{}
+#tooltip{
+    position:absolute;
+    background:rgb(68, 76, 99);
+    padding:5px;
+    color:#fff;
+    font-size: 12px;
+    border-radius:2px;
+    display:none;
+    z-index: 999999999;
+}
+.public-right-10{
+    padding-right: 10px;
+}
+body .font-size-14{
+    font-size:14px;
+}
+
+.font-size-23{
+    font-size:23px;
+}
+
+@media (max-width:768px){
+    /*body .layui-layout-admin .layui-logo ,body .layui-side{*/
+    /*    left:-200px*/
+    /*}*/
+    /*body .layui-body,body .layui-header .layui-layout-left{*/
+    /*    left: 0;*/
+    /*}*/
+    .layui-header .layui-nav{
+        padding: 0;
+    }
+
+}
+
+@media (max-width:375px){
+    body .layui-header .layui-layout-left .layui-nav-item a i{
+        font-size: 18px;
+    }
+    body .layui-nav-img{
+        width: 25px;
+        height: 25px;
+    }
+    .layui-header .font-size-23{
+        font-size: 20px;
+    }
+    .layui-header .layui-nav .layui-nav-item a{
+        padding:0px 15px;
+    }
+}
