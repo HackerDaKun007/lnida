@@ -14,7 +14,7 @@
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item layadmin-flexible left-menu" action="left"><a href="javascript:;" class="tooltip " title="左伸缩菜单"><i class="layui-icon-shrink-right layui-icon"></i></a></li>
-            <li class="layui-nav-item layadmin-flexible"><a href="javascript:;" class="tooltip"  title="刷新"><i class="layui-icon-refresh-3 layui-icon"></i></a></li>
+            <li class="layui-nav-item layadmin-flexible refresh"><a href="javascript:;" class="tooltip"  title="刷新"><i class="layui-icon-refresh-3 layui-icon"></i></a></li>
             <li class="layui-nav-item layadmin-flexible"><a href="javascript:;" class="tooltip"  title="锁屏"><i class="layui-icon-password layui-icon font-size-23" style="font-weight: bold;"></i></a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
@@ -37,14 +37,11 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item"><a href="javascript:;" url="index/header"  class="index-column-url"><i class="icon-shouye3 iconfont public-right-10 font-size-14"></i>首页</a></li>
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;" ><i class="icon-chanpin iconfont public-right-10 font-size-14"></i>所有商品</a>
+                <li class="layui-nav-item index-column-url"  url="/index/home"  ><a href="javascript:;"><i class="icon-shouye3 iconfont public-right-10 font-size-14"></i>首页</a></li>
+                <li class="layui-nav-item ">
+                    <a class="" href="javascript:;" ><i class="icon-chanpin iconfont public-right-10 font-size-14"></i>系统设置</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" url="" class="index-column-url">列表一</a></dd>
-                        <dd><a href="javascript:;" url=""  class="index-column-url">列表二</a></dd>
-                        <dd><a href="javascript:;" url=""  class="index-column-url">列表三</a></dd>
-                        <dd><a href="" class="index-column-url">超链接</a></dd>
+                        <dd url="/admin/index" class="index-column-url"><a href="javascript:;" >管理账号</a></dd>
                     </dl>
                 </li>
                 </ul>
@@ -53,7 +50,6 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        内容主体区域
     </div>
 
 </div>
@@ -62,10 +58,3 @@
 </html>
 
 {include file="public/footer"}
-<script>
-    //JavaScript代码区域
-    layui.use('element', function(){
-        var element = layui.element;
-
-    });
-</script>

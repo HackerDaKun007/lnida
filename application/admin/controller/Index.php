@@ -8,8 +8,10 @@ class Index extends Share
         return view();
     }
 
-    public function header()
+    public function home()
     {
-        echo 123;
+        return view();
     }
+
+
 }

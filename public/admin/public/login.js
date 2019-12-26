@@ -4,6 +4,7 @@ layui.use(['form', 'layedit', 'laydate'], function () {
         , layedit = layui.layedit
         , laydate = layui.laydate;
 
+
     // 自定义验证规则
     form.verify({
         username: function (value) {

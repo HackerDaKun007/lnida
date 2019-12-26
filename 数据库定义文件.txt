@@ -1,0 +1,48 @@
+提示编码：
+    0       错误提示
+    1       成功提示
+    404     没权限
+    500     没登录
+文件定义
+	superadmin		后台目录
+
+//数据库
+    数据库名称:    lnida
+    数据前缀:      da_
+
+    管理员表: da_admin
+        admin_id
+        username                用户名
+        password                密码
+        encryption              加密
+        disable                 是否启动(1yes,2no)默认是1
+        img                     头像
+        listed_id               权限列表
+        contact                 联系人
+        create_time             开始时间
+        update_time             修改时间
+
+    系统文件目录: da_permission
+        permission_id           ID
+        username                名称
+        level                   级别(1,2,3)1级:主级栏目名称，2级:子级栏目名称，3级:操作控制名称
+        column                  是否显示栏目(1是,2否）
+        father                  父级ID，用于级别2
+        child                   父级ID，用于级别3
+        sort                    排序
+        controller              控制名称
+        action                  方法名称
+        create_time             添加时间
+        update_time             修改时间
+
+    //权限列表: da_listed
+        listed_id               ID
+        username                名称
+        admin                   是否为超级管理员(1是，2否)
+        permission_id           系统文件目录id拼接》1,2,3(0代表超级管理员)
+        start                   是否启用(1是，2否)
+        create_time             添加时间
+        update_time             修改时间
+
+
+

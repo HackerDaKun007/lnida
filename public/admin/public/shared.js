@@ -3,7 +3,6 @@
 
     $.Public = {};
     $.Public.url = '/admin/';
-    $.Public.url = '';
     $.Public.api = '/api/';
     $.Public.form = $('form').attr('action');
     $.Public.values = '';  //提交事件后返回值
@@ -143,32 +142,26 @@
             timeout: 100000,
             success: function(msg){
                 layer.close(index_load);
-                var msgr = '';
                 if ($.Public.json(msg) == true) {
-                    msgr = JSON.parse(msg);
-                }
-                if(msgr.code == 404){  //没权限
-                    layer.msg(msgr.msg,{icon:2,time:1500});
-                    return false;
-                }else if(msgr.code == 500){ //没登录
-                    layer.msg('请先登录！',{icon:2,time:1500},function(){
-                        window.location.href = msgr.url;
-                    });
-                    return false;
-                }else if(msgr.code == 502){ //完全没有权限
-                    layer.msg(msgr.msg,{icon:2,time:1500},function() {
-                        window.location.href = msgr.url;
-                    })
-                    return false;
-                }else{if($.Public.json(msg) == true){
+                    let msgr = JSON.parse(msg);
+                    if(msgr.code == 404){  //没权限
+                        layer.msg(msgr.msg,{icon:2,time:1500});
+                    }else if(msgr.code == 500){ //没登录
+                        layer.msg('请先登录！',{icon:2,time:1500},function(){
+                            window.location.href = msgr.url;
+                        });
+                    }else if(msgr.code == 502) { //完全没有权限
+                        layer.msg(msgr.msg, {icon: 2, time: 1500}, function () {
+                            window.location.href = msgr.url;
+                        })
+                    }else{
                         //正常即可执行当前方法
                         val.data(msgr);
-                    }else{
-                        val.data();
                     }
-
+                }else{
+                    //正常即可执行当前方法
+                    val.data();
                 }
-
             },
             error: function(msg){
                 layer.close(index_load);
@@ -221,47 +214,45 @@
             data:load.data,
             timeout: 100000,
             success: function(msg){
-                var msgData = '';
                 layer.close(index_load);
                 if ($.Public.json(msg) == true) {
-                    msgData = JSON.parse(msg);
-                }
-                if(msgData.code == 404){  //没权限
-                    layer.msg(msgData.msg,{icon:2,time:1500});
-                    return false;
-                }else if(msgData.code == 500){ //没登录
-                    layer.msg(msgData.msg,{icon:2,time:1500},function(){
-                        window.location.href = msgData.url;
-                    });
-                    return false;
-                }else if(msgData.code == 502) { //完全没有权限
-                    layer.msg(msgData.msg, {icon: 2, time: 1500}, function () {
-                        window.location.href = msgData.url;
-                    })
-                    return false;
-                }else if(msgData.code == 1){
-                    layer.msg(msgData.msg,{icon:1,time:500},function () {
-                        if ($.Public.json(msg) == true) {
-                            load.load(msgData)
-                        }else{
-                            load.load()
-                        }
-                    });
-                }else if(msgData.code == 0){
-                    layer.msg(msgData.msg,{icon:2,time:1500});
+                    let msgData = JSON.parse(msg);
+                    if(msgData.code == 404){  //没权限
+                        layer.msg(msgData.msg,{icon:2,time:1500});
+                    }else if(msgData.code == 500){ //没登录
+                        layer.msg(msgData.msg,{icon:2,time:1500},function(){
+                            window.location.href = msgData.url;
+                        });
+                    }else if(msgData.code == 502) { //完全没有权限
+                        layer.msg(msgData.msg, {icon: 2, time: 1500}, function () {
+                            window.location.href = msgData.url;
+                        })
+                    }else if(msgData.code == 1){
+                        layer.msg(msgData.msg,{icon:1,time:500},function () {
+                            if ($.Public.json(msg) == true) {
+                                load.load(msgData);
+                            }else{
+                                load.load();
+                            }
+                        });
+                    }else if(msgData.code == 0){
+                        layer.msg(msgData.msg,{icon:2,time:1500});
+                    }
+                }else{
+                    load.load();
                 }
             },
             error: function(msg){
                 layer.close(index_load);
                 if(load.error != null && load.error != ''){
-                    load.error()
+                    load.error();
                 }
                 layer.msg('当前服务器异常，请联系技术员！',{icon:2,time:1000});
             },
             complete : function(XMLHttpRequest,status){ //请求完成后最终执行参数
                 layer.close(index_load);
                 if(load.error != null && load.error != ''){
-                    load.error()
+                    load.error();
                 }
 
                 if(status=='timeout'){//超时,status还有success,error等值的情况

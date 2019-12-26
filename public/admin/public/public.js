@@ -1,10 +1,12 @@
 
-layui.use(['form', 'layedit', 'laydate'], function () {
+layui.use(['form', 'layedit', 'laydate','element'], function () {
     var form = layui.form
         , layer = layui.layer
         , layedit = layui.layedit
+        , element = layui.element
         , laydate = layui.laydate;
     $.Public.tooltip();
+    var defaultUrl = '/index/home';  //默认URL地址
 
     //顶部导航栏目
     $('.layadmin-flexible').on('mouseleave',function(){
@@ -120,7 +122,7 @@ layui.use(['form', 'layedit', 'laydate'], function () {
         }
         return false;
     });
-    //
+
     /*
     * 请求页面替换
     * @parat string 传入相关的url地址
@@ -128,18 +130,73 @@ layui.use(['form', 'layedit', 'laydate'], function () {
     function bodyUrl(url)
     {
         let shortURL = top.location.href.substring(0,top.location.href.indexOf('#'));
-        history.replaceState(null,null,shortURL+'#/'+url);
+        history.replaceState(null,null,shortURL+'#'+url);
+        console.info($.Public.url+url.substr(1,url.length));
         $.Public.ajax({
-            url:$.Public.url+url,
+            url:$.Public.url+url.substr(1,url.length),
             type:'POST',
             data:'',
             load:function(msg){
-                console.info(msg);
-                layui_body.html(msg);
+                if ($.Public.json(msg) == true) {
+                    let msgData = JSON.parse(msg);
+                    if(msgData.code == 404){  //没权限
+                        layer.msg(msgData.msg,{icon:2,time:1500});
+                    }else if(msgData.code == 500){ //没登录
+                        layer.msg('请先登录！',{icon:2,time:1500},function(){
+                            window.location.href = msgData.url;
+                        });
+                    }else if(msgData.code == 502) { //完全没有权限
+                        layer.msg(msgData.msg, {icon: 2, time: 1500}, function () {
+                            window.location.href = msgData.url;
+                        });
+                    }
+                }else{
+                    layui_body.html(msg);
+                }
             }
         });
     }
+    //defaultUrl
+    $('.refresh').on('click',function(){
+        locationHref();
+    });
+    //获取当前URL地址并修改
+    function locationHref()
+    {
+        let locationHref = window.location.href.split('#');
+        if(locationHref.length > 1){
+            bodyUrl(locationHref[1]);
+        }else{
+            bodyUrl(defaultUrl);
+        }
+    }
+    locationHref();
 
+    //当前栏目选择事件
+    var columnHref = window.location.href.split('#');
+    var columnData = defaultUrl;
+    $('.index-column-url').each(function(){
+        if(columnHref.length > 1){
+            columnData = columnHref[1];
+        }
+        let $this = $(this);
+        let url = $this.attr('url');
+        if(url != ''){
+            if($this.attr('url') == columnData){
+                $this.addClass('layui-this');
+                //判断父级
+                let parent = $this.parent('dd');
+                if(parent.length > 0){
+                    parent.addClass('layui-nav-itemed');
+                    parent.parent('dl').parent('li').addClass('layui-nav-itemed');
+                }else{
+                    $this.parent('dl').parent('li').addClass('layui-nav-itemed');
+                }
+                return false;
+            }
+        }
+
+    });
 })
 
 

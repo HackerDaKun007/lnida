@@ -55,6 +55,18 @@ body .font-size-14{
 
 }
 
+.public-header{
+    background: #fff;
+    padding: 10px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,.2);
+    behavior: url(./ie-css3.htc);
+    border-radius: 3px;
+}
+.public-header .search-form{
+    padding-bottom: 10px;
+    border-bottom:1px solid #f0f0f0;
+}
+
 @media (max-width:375px){
     body .layui-header .layui-layout-left .layui-nav-item a i{
         font-size: 18px;
