@@ -8,6 +8,9 @@ return [
     'img' => '/uploads/',  //前端地址
     'imgPhp' => './uploads/',  //后端地址
     'runtimeImg' => '../runtime/tmp/', //临时存放图片文件
+
+    //文件地址
+    'fileIndex' => '../application/index/view/index/',
 ];
 
 ?>

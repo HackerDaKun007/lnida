@@ -5,7 +5,7 @@ class Index
 {
     public function index()
     {
-        return view();
+        return view('76Cf448aly9GmEktp8rKDcoxZu1nhXA0');
     }
 
     

@@ -19,7 +19,7 @@
     }
 
     //判断变量是否存在，存在就返回当前值
-    $.Public.variable = function(val){
+    $.Public.values = function(val){
         if(val != null && val != ''){
             return val;
         }
@@ -31,6 +31,39 @@
             return val;
         }
         return '/static/home/img/back.png';
+    }
+
+    //checked选择
+    $.Public.checked = function(data,val)
+    {
+        if(val == ''){
+            val = 1;
+        }
+        if(data == val){
+            return 'checked';
+        }else{
+            return '';
+        }
+    }
+
+    //弹出图片宽
+    $.Public.popImg = function (val) {
+        var img_json = {
+            "start": 0, //初始显示的图片序号，默认0
+            "data": [   //相册包含的图片，数组格式
+                {
+                    "alt": val.attr('alt'),
+                    "pid": val.attr('layer-pid'), //图片id
+                    "src": val.attr('src'), //原图地址
+                    "thumb": val.attr('src') //缩略图地址
+                }
+            ]
+        }
+        layer.photos({
+            photos: img_json
+            ,anim: 5
+            ,shade:.3
+        });
     }
 
     //动态更新js

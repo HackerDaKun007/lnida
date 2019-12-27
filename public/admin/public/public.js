@@ -133,7 +133,6 @@ layui.use(['form', 'layedit', 'laydate','element'], function () {
     {
         let shortURL = top.location.href.substring(0,top.location.href.indexOf('#'));
         history.replaceState(null,null,shortURL+'#'+url);
-        console.info($.Public.url+url.substr(1,url.length));
         $.Public.ajax({
             url:$.Public.url+url.substr(1,url.length),
             type:'POST',
@@ -155,13 +154,7 @@ layui.use(['form', 'layedit', 'laydate','element'], function () {
                 }else{
                     layui_body.html(msg);
                     form.render();
-                    // let link = '';
-                    // if(url == '/index/home'){
-                    //     link = "/js/admin.js";
-                    // }else if(url == '/admin/index'){
-                    //     link = "/js/admin.js";
-                    // }
-                    // $.Public.javascript($.Public.html+link)
+
                 }
             }
         });

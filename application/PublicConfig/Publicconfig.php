@@ -29,7 +29,7 @@ trait Publicconfig{
                 $code = 1;
                 $data = str_replace('\\','/',$info->getSaveName());
                 //判断根目录文件夹是否存在，没有就创建文件夹
-                $url_times = $path['path.imgPhp'].'/'.date('Ymd');
+                $url_times = $path['imgPhp'].'/'.date('Ymd');
                 if(empty(file_exists($url_times))){ //为空就创建文件夹
                     if(!is_dir($url_times)){
                         $res = @mkdir(iconv("UTF-8", "GBK", $url_times),0777,true);
@@ -95,8 +95,33 @@ trait Publicconfig{
         }
     }
 
-
-
+    /*
+     * 创建文件并写入数据
+     * @param $data 文件目录
+     * @param $username 文件名称
+     * return array 状态码(code),提示语(msg)
+     * */
+    protected function FileCount($data,$username,$txt)
+    {
+        if(!empty(is_writable($data))){
+            $fh = fopen($data.$username, 'w');
+            fwrite($fh , $txt);
+            fclose($fh);
+            return true;
+        }
+        return false;
+    }
+    /*
+     * 打开文件
+     * @param $data 文件目录
+     * */
+    protected function openFile($data)
+    {
+        $fh = fopen($data, 'r');
+        $data = fgets($fh);
+        fclose($fh);
+        return $data;
+    }
     /*
      * 创建文件夹
      * @param $url_times 文件目录

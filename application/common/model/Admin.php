@@ -18,14 +18,18 @@ class Admin extends Share
         $msg = '添加失败';
         //判断用户名称是否存在
         $find = $this->where('username','=',$value['username'])->count();
-        if(empty($find)){
+        if(!empty($find)){
             $msg = '当前用户已经存在';
         }else{
             $this->startTrans();
             try{
-                if($this->isUpdate(false)->allowEmpty($this->allow)->save($value)){
+                if($this->isUpdate(false)->allowField($this->allow)->save($value)){
                     //移动文件
                     if($this->moving($this->path['runtimeImg'].$value['img'],$this->path['imgPhp'].$value['img'])){
+                        //删除图片
+                        if(!empty($value['img'])){
+                            $this->FileDel($this->path['runtimeImg'].$value['img']);
+                        }
                         $this->commit();
                         $code = 1;
                         $msg = '添加成功';
@@ -34,7 +38,7 @@ class Admin extends Share
                     }
 
                 }
-            }catch(Exception $c){
+            }catch (Exception $e){
                 $this->rollback();
             }
         }
@@ -55,27 +59,32 @@ class Admin extends Share
             ['username','eq',$value['username']],
             ['admin_id','neq',$value['admin_id']],
         ];
-        $find = $this->where($where)->field('img')->find();
-        if(empty($find)){
+        $find = $this->where('admin_id','eq',$value['admin_id'])->field('img')->find();
+        $count = $this->where($where)->count();
+        if(!empty($count)){
             $msg = '当前用户已经存在';
         }else{
             $this->startTrans();
             try{
-                if($this->isUpdate(true)->allowEmpty($this->allow)->save($value,['admin_id'=>$value['admin_id']])){
+                if($this->isUpdate(true)->allowField($this->allow)->save($value,['admin_id'=>$value['admin_id']])){
                     if(!empty($value['img'])){
                         //移动文件
                         if($this->moving($this->path['runtimeImg'].$value['img'],$this->path['imgPhp'].$value['img'])){
                             //删除图片
+                            if(!empty($value['img'])){
+                                $this->FileDel($this->path['runtimeImg'].$value['img']);
+                            }
+                            //删除图片
                             if(!empty($find['img'])){
                                 $this->FileDel($this->path['imgPhp'].$find['img']);
                             }
-                            $this->commit();
-                            $code = 1;
-                            $msg = '修改成功';
                         }else{
-                            $msg = '当前头像移动失败';
+                            return returnModel([],0,'当前头像移动失败',$code);
                         }
                     }
+                    $this->commit();
+                    $code = 1;
+                    $msg = '修改成功';
                 }
             }catch(Exception $c){
                 $this->rollback();
@@ -92,18 +101,16 @@ class Admin extends Share
     public function Del($id)
     {
         //搜索用户
-        $find = $this->field('id,img')->find($id)->toArray();
+        $find = $this->field('admin_id,img')->where('admin_id','=',$id)->find()->toArray();
         $code = 0;
         $msg = '删除失败';
         if(!empty($find)){
             $this->startTrans();
             try{
-                if($this->where('id','=',$id)->delete()){
+                if($this->where('admin_id','=',$id)->delete()){
                     //删除文件
                     if(!empty($find['img'])){
-                        if(!$this->FileDel($this->path['imgPhp'].$find['img'])){
-                            return returnModel([],0,'删除没权限删除图片',$code);
-                        }
+                        $this->FileDel($this->path['imgPhp'].$find['img']);
                     }
                     $this->commit();
                     $msg = '删除成功';
@@ -123,7 +130,10 @@ class Admin extends Share
      * */
     public function Show($val,$where=[])
     {
-        $sql = $this->where($where)->order('admin_id desc')->paginate($val['limit'],false,['page'=>$val['page']])->toArray();
+        $sql = $this->where($where)->order('admin_id desc')->paginate($val['limit'],false,['page'=>$val['page']])->each(function ($item){
+            $item['img'] = $this->path['img'].$item['img'];
+            return $item;
+        })->toArray();
         $count = $this->where($where)->count();
         return returnModel($sql['data'],$count,'seccess',200);
     }

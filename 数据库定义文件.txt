@@ -22,6 +22,22 @@
         create_time             开始时间
         update_time             修改时间
 
+   页面分组:da_group
+        group_id
+        username                网站名称
+        disable                 是否启动(1yes,2no)默认是1
+        back                    备注
+        create_time             开始时间
+        update_time             修改时间
+   自定义页面:da_html
+        html_id
+        username                名称
+        back                    备注
+        html                    随机文件名称
+        disable                 是否启动(1yes,2no)默认是1
+        create_time             开始时间
+        update_time             修改时间
+
     系统文件目录: da_permission
         permission_id           ID
         username                名称

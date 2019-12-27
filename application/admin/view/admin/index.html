@@ -12,7 +12,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">联系人</label>
             <div class="layui-input-inline">
-                <input type="text" name="username"  autocomplete="off" class="layui-input">
+                <input type="text" name="contact"  autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-inline">
@@ -31,6 +31,7 @@
             </div>
         </div>
     </div>
+    <input value="200" name="api" type="hidden"  />
 </form>
 <!--添加/修改等按钮-->
 <div class="layui-form-item ">
@@ -43,12 +44,19 @@
     <div class="public-content-table">
         <table class="layui-hide" id="content" lay-filter="content"></table>
     </div>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-xs modify" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+    </script>
     <script type="text/html" id="start">
         {{# if(d.disable == 1){  }}
             <button type="button" class="layui-btn  layui-btn-xs ">启用</button>
         {{#  } else if(d.disable == 2) { }}
             <button type="button" class="layui-btn  layui-btn-xs layui-btn-disabled">禁用</button>
         {{#  } }}
+    </script>
+    <script type="text/html" id="images">
+        <img src="{{ d.img }}" layer-pid="{{d.admin_id}}" lay-event="img" alt="{{d.contact}}" class="public-images-30 public-click-images" />
     </script>
 </div>
 
