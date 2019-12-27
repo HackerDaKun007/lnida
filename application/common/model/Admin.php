@@ -123,13 +123,9 @@ class Admin extends Share
      * */
     public function Show($val,$where=[])
     {
-        $sql = $this->where($where)->order('id desc')->paginate($val['limit'],false,['page'=>$val['page']])->toArray();
-        $data = '';
+        $sql = $this->where($where)->order('admin_id desc')->paginate($val['limit'],false,['page'=>$val['page']])->toArray();
         $count = $this->where($where)->count();
-        if(!empty($sql)){
-            $data = $sql;
-        }
-        return returnModel($data,$count,'seccess',200);
+        return returnModel($sql['data'],$count,'seccess',200);
     }
 }
 

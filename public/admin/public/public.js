@@ -123,6 +123,8 @@ layui.use(['form', 'layedit', 'laydate','element'], function () {
         return false;
     });
 
+
+
     /*
     * 请求页面替换
     * @parat string 传入相关的url地址
@@ -147,11 +149,19 @@ layui.use(['form', 'layedit', 'laydate','element'], function () {
                         });
                     }else if(msgData.code == 502) { //完全没有权限
                         layer.msg(msgData.msg, {icon: 2, time: 1500}, function () {
-                            window.location.href = msgData.url;
+                            window.history.go(-1);
                         });
                     }
                 }else{
                     layui_body.html(msg);
+                    form.render();
+                    // let link = '';
+                    // if(url == '/index/home'){
+                    //     link = "/js/admin.js";
+                    // }else if(url == '/admin/index'){
+                    //     link = "/js/admin.js";
+                    // }
+                    // $.Public.javascript($.Public.html+link)
                 }
             }
         });

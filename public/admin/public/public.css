@@ -37,9 +37,18 @@ body .layui-layout-admin .layui-body{
 body .font-size-14{
     font-size:14px;
 }
-
+.padding-10{
+    padding: 10px;
+}
 .font-size-23{
     font-size:23px;
+}
+.layui-layer-title{
+    color: #fff;
+    background-color: #000;
+}
+.public-border-e6{
+    border: #e6e6e6 1px solid;
 }
 
 @media (max-width:768px){

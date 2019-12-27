@@ -13,7 +13,7 @@
     color: #fff;
 }
 .layui-layout-admin .layui-side{
-    z-index: 9999;
+    z-index: 999;
 }
 .layui-header .layui-nav .layui-nav-item a{
     color: #2F4056;

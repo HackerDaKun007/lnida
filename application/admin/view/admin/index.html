@@ -9,6 +9,22 @@
                 <input type="text" name="username"  autocomplete="off" class="layui-input">
             </div>
         </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">联系人</label>
+            <div class="layui-input-inline">
+                <input type="text" name="username"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">是否启用</label>
+            <div class="layui-input-inline" >
+                <select class="layui-form-select"  name="disable">
+                    <option value="">全部</option>
+                    <option value="1">启用</option>
+                    <option value="2">禁用</option>
+                </select>
+            </div>
+        </div>
         <div class="layui-inline public-btn">
             <div class="layui-input-inline ">
                 <button type="button"  lay-submit="" lay-filter="search" class="layui-btn layui-btn-sm  public-btn"><i class="layui-icon-search layui-icon"></i>搜索</button>
@@ -23,6 +39,17 @@
     </div>
 </div>
 
+    <!--内容区域-->
+    <div class="public-content-table">
+        <table class="layui-hide" id="content" lay-filter="content"></table>
+    </div>
+    <script type="text/html" id="start">
+        {{# if(d.disable == 1){  }}
+            <button type="button" class="layui-btn  layui-btn-xs ">启用</button>
+        {{#  } else if(d.disable == 2) { }}
+            <button type="button" class="layui-btn  layui-btn-xs layui-btn-disabled">禁用</button>
+        {{#  } }}
+    </script>
 </div>
 
 <script type="text/javascript" src="__ADMIN__/js/admin.js"></script>

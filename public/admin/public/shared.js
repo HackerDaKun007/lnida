@@ -2,7 +2,8 @@
 (function ($) {
 
     $.Public = {};
-    $.Public.url = '/admin/';
+    $.Public.url = '/admin/'; //API接口页面
+    $.Public.html = '/admin'; //引用页面链接
     $.Public.api = '/api/';
     $.Public.form = $('form').attr('action');
     $.Public.values = '';  //提交事件后返回值
@@ -31,7 +32,23 @@
         }
         return '/static/home/img/back.png';
     }
-    
+
+    //动态更新js
+    $.Public.javascript = function (url)
+    {
+        var script = document.createElement("script");
+        script.src = url;
+        var done = false;
+        script.onload = script.onreadystatechange = function() {
+            if (!done && (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
+                done = true;
+                script.onload = script.onreadystatechange = null;
+                document.body.removeChild(script);
+            }
+        };
+        document.body.appendChild(script);
+    }
+
     //光标移开自动补全两位小数，input光标移开：onblur=,obj=this,如：$.Public.onblur(this)
     $.Public.money=function(obj)
     {
@@ -152,7 +169,7 @@
                         });
                     }else if(msgr.code == 502) { //完全没有权限
                         layer.msg(msgr.msg, {icon: 2, time: 1500}, function () {
-                            window.location.href = msgr.url;
+                            window.history.go(-1);
                         })
                     }else{
                         //正常即可执行当前方法
@@ -160,7 +177,7 @@
                     }
                 }else{
                     //正常即可执行当前方法
-                    val.data();
+                    val.data('');
                 }
             },
             error: function(msg){
@@ -225,7 +242,7 @@
                         });
                     }else if(msgData.code == 502) { //完全没有权限
                         layer.msg(msgData.msg, {icon: 2, time: 1500}, function () {
-                            window.location.href = msgData.url;
+                            window.history.go(-1);
                         })
                     }else if(msgData.code == 1){
                         layer.msg(msgData.msg,{icon:1,time:500},function () {
