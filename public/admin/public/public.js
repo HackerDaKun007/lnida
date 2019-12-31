@@ -118,7 +118,9 @@ layui.use(['form', 'layedit', 'laydate','element'], function () {
         let $this = $(this);
         let url = $this.attr('url');
         if(url != null && url != ''){
-            bodyUrl(url);
+            let shortURL = top.location.href.substring(0,top.location.href.indexOf('#'));
+            history.pushState($this.attr('layui-id'),$this.attr('layui-title'),shortURL+'#'+url)
+            bodyUrl(url,$this.attr('layui-id'),$this.attr('layui-title'));
         }
         return false;
     });
@@ -154,13 +156,16 @@ layui.use(['form', 'layedit', 'laydate','element'], function () {
                 }else{
                     layui_body.html(msg);
                     form.render();
-
                 }
             }
         });
     }
+
+
+
     //defaultUrl
-    $('.refresh').on('click',function(){
+    $('.refresh').on('click',function()
+    {
         locationHref();
     });
     //获取当前URL地址并修改
@@ -176,30 +181,45 @@ layui.use(['form', 'layedit', 'laydate','element'], function () {
     locationHref();
 
     //当前栏目选择事件
-    var columnHref = window.location.href.split('#');
-    var columnData = defaultUrl;
-    $('.index-column-url').each(function(){
-        if(columnHref.length > 1){
-            columnData = columnHref[1];
-        }
-        let $this = $(this);
-        let url = $this.attr('url');
-        if(url != ''){
-            if($this.attr('url') == columnData){
-                $this.addClass('layui-this');
-                //判断父级
-                let parent = $this.parent('dd');
-                if(parent.length > 0){
-                    parent.addClass('layui-nav-itemed');
-                    parent.parent('dl').parent('li').addClass('layui-nav-itemed');
-                }else{
-                    $this.parent('dl').parent('li').addClass('layui-nav-itemed');
-                }
-                return false;
+    function columnChoice()
+    {
+        var columnHref = window.location.href.split('#');
+        var columnData = defaultUrl;
+        $('.index-column-url').each(function(){
+            if(columnHref.length > 1){
+                columnData = columnHref[1];
             }
-        }
+            let $this = $(this);
+            let url = $this.attr('url');
+            if(url != ''){
+                if($this.attr('url') == columnData){
+                    let parent = $this.parent('dd');
+                    $this.addClass('layui-this');
+                    //判断父级
+                    if(parent.length > 0){
+                        parent.addClass('layui-nav-itemed');
+                        parent.parent('dl').parent('li').addClass('layui-nav-itemed');
+                    }else{
+                        $this.parent('dl').parent('li').addClass('layui-nav-itemed');
+                    }
+                    return false;
+                }
+            }
 
-    });
+        });
+    }
+    columnChoice();
+
+    //后退控制
+    window.addEventListener('popstate',function(res){
+        // var orderStatus = history.state();
+        let shortURL = window.location.href.split('#');
+        if($.Public.values(shortURL[1])){
+            $('.layui-column .layui-this').removeClass('layui-this');
+            bodyUrl(shortURL[1]);
+            columnChoice();
+        }
+    })
 })
 
 

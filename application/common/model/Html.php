@@ -3,7 +3,7 @@ namespace app\common\model;
 class Html extends Share
 {
     protected $autoWriteTimestamp = true;
-    protected $allow = ['username','back','disable','html'];
+    protected $allow = ['username','back','html','group_id'];
 
     /*
      * 添加
@@ -112,11 +112,8 @@ class Html extends Share
      * */
     public function Show($val,$where=[])
     {
-        $sql = $this->where($where)->order('html_id desc')->paginate($val['limit'],false,['page'=>$val['page']])->each(function($itme){
-            $itme['count'] = $this->openFile($this->path['fileIndex'].$itme['html'].'.html');
-            return $itme;
-        })->toArray();
-        $count = $this->where($where)->count();
+        $sql = $this->where($where)->field('a.*,b.username as user')->alias('a')->join('group b','b.group_id = a.group_id','LEFT')->order('a.html_id desc')->paginate($val['limit'],false,['page'=>$val['page']])->toArray();
+        $count = $this->alias('a')->where($where)->count();
         return returnModel($sql['data'],$count,'seccess',200);
     }
 

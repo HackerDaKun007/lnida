@@ -4,26 +4,9 @@
     <form class="layui-form layui-form-pane " action="{:url('index')}">
         <div class="layui-form-item search-form">
             <div class="layui-inline">
-                <label class="layui-form-label">网站名称</label>
+                <label class="layui-form-label">栏目名称</label>
                 <div class="layui-input-inline">
                     <input type="text" name="username"  autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">备注信息</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="back"  autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">分组信息</label>
-                <div class="layui-input-inline">
-                    <select name="group_id" lay-search="">
-                        <option value="">直接或搜索选择分组信息</option>
-                        {foreach $Group as $k => $v}
-                        <option value="{$v.group_id}">{$v.username} </option>
-                        {/foreach}
-                    </select>
                 </div>
             </div>
             <div class="layui-inline public-btn">
@@ -34,6 +17,7 @@
         </div>
         <input value="200" name="api" type="hidden"  />
     </form>
+
     <!--添加/修改等按钮-->
     <div class="layui-form-item ">
         <div class="layui-btn-group ">
@@ -45,25 +29,14 @@
     <div class="public-content-table">
         <table class="layui-hide" id="content" lay-filter="content"></table>
     </div>
+
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-xs modify" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="level"><i class="layui-icon layui-icon-list"></i>查看文件列表</a>
     </script>
-    <script type="text/html" id="start">
-        {{# if(d.disable == 1){  }}
-        <button type="button" class="layui-btn  layui-btn-xs ">启用</button>
-        {{#  } else if(d.disable == 2) { }}
-        <button type="button" class="layui-btn  layui-btn-xs layui-btn-disabled">禁用</button>
-        {{#  } }}
-    </script>
-    <script type="text/html" id="images">
-        <img src="{{ d.img }}" layer-pid="{{d.admin_id}}" lay-event="img" alt="{{d.contact}}" class="public-images-30 public-click-images" />
-    </script>
+
 
 </div>
-<script type="text/javascript">
-    var Group = {$Group|raw|josn}
-</script>
 
-
-<script type="text/javascript" src="__ADMIN__/js/html.js"></script>
+<script type="text/javascript" src="__ADMIN__/js/filetxt.js"></script>

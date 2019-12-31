@@ -6,7 +6,7 @@ use app\PublicConfig\Publicconfig;
 class Share extends Model
 {
     use Publicconfig;
-//    protected $autoWriteTimestamp = true;
+    protected $autoWriteTimestamp;
     protected $path;
     public function initialize()
     {

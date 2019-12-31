@@ -34,20 +34,35 @@
     </div>
 
     <div class="layui-side layui-bg-black">
-        <div class="layui-side-scroll">
+        <div class="layui-side-scroll layui-column">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item index-column-url"  url="/index/home"  ><a href="javascript:;"><i class="icon-shouye3 iconfont public-right-10 font-size-14"></i>首页</a></li>
+                <li class="layui-nav-item index-column-url"  url="/index/home" layui-id="1" layui-title="首页" ><a href="javascript:;"><i class="icon-shouye3 iconfont public-right-10 font-size-14"></i>首页</a></li>
+                <li class="layui-nav-item ">
+                    <a class="" href="javascript:;" ><i class="icon-chanpin iconfont public-right-10 font-size-14"></i>渠道号栏目</a>
+                    <dl class="layui-nav-child">
+                        <dd url="/channel/index" class="index-column-url" layui-id="7" layui-title="自定分组"><a href="javascript:;" >渠道号组</a></dd>
+                    </dl>
+                    <dl class="layui-nav-child">
+                        <dd url="/chnumber/index" class="index-column-url" layui-id="8" layui-title="自定页面"><a href="javascript:;" >绑定渠道号</a></dd>
+                    </dl>
+                </li>
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;" ><i class="icon-chanpin iconfont public-right-10 font-size-14"></i>自定栏目</a>
                     <dl class="layui-nav-child">
-                        <dd url="/html/index" class="index-column-url"><a href="javascript:;" >自定页面</a></dd>
+                        <dd url="/group/index" class="index-column-url" layui-id="2" layui-title="自定分组"><a href="javascript:;" >自定分组</a></dd>
                     </dl>
+                    <dl class="layui-nav-child">
+                        <dd url="/html/index" class="index-column-url" layui-id="3" layui-title="自定页面"><a href="javascript:;" >自定页面</a></dd>
+                    </dl>
+<!--                    <dl class="layui-nav-child">-->
+<!--                        <dd url="/filetxt/index" class="index-column-url" layui-id="4" layui-title="上传文件"><a href="javascript:;" >上传文件</a></dd>-->
+<!--                    </dl>-->
                 </li>
                 <li class="layui-nav-item ">
                     <a class="" href="javascript:;" ><i class="icon-chanpin iconfont public-right-10 font-size-14"></i>系统设置</a>
                     <dl class="layui-nav-child">
-                        <dd url="/admin/index" class="index-column-url"><a href="javascript:;" >管理账号</a></dd>
+                        <dd url="/admin/index" class="index-column-url" layui-id="3" layui-title="管理账号"><a href="javascript:;" >管理账号</a></dd>
                     </dl>
                 </li>
                 </ul>

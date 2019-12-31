@@ -25,6 +25,7 @@
         }
         return '';
     }
+
     //判断图片是否存在，存在就返回当前值，不存在就返回一直白底图
     $.Public.valImg = function(val){
         if(val != null && val != ''){

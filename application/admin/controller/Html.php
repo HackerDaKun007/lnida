@@ -3,15 +3,21 @@
  * 自定义页面 - 控制
  * */
 namespace app\admin\controller;
+use app\PublicConfig\Publicconfig;
 class Html extends Share
 {
+    use Publicconfig;
     protected $model;
     protected $validate;
+    protected $group;
+    protected $path;
 
     public function initialize()
     {
         $this->validate = Validate('Html');
         $this->model = Model('Html');
+        $this->group = Model('Group');
+        $this->path = config('path.');
     }
     public function index()
     {
@@ -27,20 +33,49 @@ class Html extends Share
                 if(!empty($str)){
                     $where = [];
                     if(!empty($get['username'])){
-                        $where[] = ['username','like','%'.$get['username'].'%'];
+                        $where[] = ['a.username','like','%'.$get['username'].'%'];
                     }if(!empty($get['back'])){
-                        $where[] = ['back','like','%'.$get['back'].'%'];
+                        $where[] = ['a.back','like','%'.$get['back'].'%'];
+                    }if(!empty($get['group_id'])){
+                        $where[] = ['a.group_id','eq',$get['group_id']];
                     }
                     $model = $this->model->Show($get,$where);
                     $data = $model['data'];
                     $count = $model['count'];
                     $page = true;
                 }
+            } if(isset($get['id']) && is_numeric($get['id'])){
+                $sql = $this->field('html')->model->where('html_id','=',$get['id'])->find();
+                if(!empty($sql)){
+                    $data =  $this->openFile($this->path['fileIndex'].$sql['html'].'.html');
+                    $page = true;
+                    $success = 'success';
+                }
             }
             uiJson($data,$count,$page,$success);
             exit;
         }
-        return view();
+        if(request()->isPost()){
+            $post = input('post.');
+            if(isset($post['id']) && is_numeric($post['id'])){
+                $count = [];
+                $sql = $this->model->field('html')->where('html_id','=',$post['id'])->find();
+                if(!empty($sql)){
+                    $data =  $this->openFile($this->path['fileIndex'].$sql['html'].'.html');
+                    $page = true;
+                    $success = 'success';
+                }else{
+                    $data =  [];
+                    $page = false;
+                    $success = 'error';
+                }
+                uiJson($data,$count,$page,$success);
+                exit;
+            }
+        }
+        return view('',[
+            'Group' => $this->group->whole(),
+        ]);
     }
 
     public function add()
@@ -50,6 +85,7 @@ class Html extends Share
         if(request()->isPost()){
             $data = input('post.');
             //验证
+            $data['Group'] = $this->group;
             $yz = $this->validate->scene('add')->check($data);
             if(!$yz){
                 $msg = $this->validate->getError();
@@ -69,6 +105,7 @@ class Html extends Share
         $msg = 'error';
         if(request()->isPost()){
             $data = input('post.');
+            $data['Group'] = $this->group;
             //验证
             $yz = $this->validate->scene('edit')->check($data);
             if(!$yz){

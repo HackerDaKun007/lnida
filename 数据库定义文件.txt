@@ -22,19 +22,42 @@
         create_time             开始时间
         update_time             修改时间
 
+    渠道分组:da_channel
+        channel_id
+        username                渠道组名称
+        disable                 是否启动(1yes,2no)默认是1
+        back                    备注
+        create_time             开始时间
+        update_time             修改时间
+
+    渠道号:da_chnumber
+         chnumber_id
+         channel_id              渠道分组id
+         username                名称
+         back                    备注
+         disable                 是否启动(1yes,2no)默认是1
+         create_time             开始时间
+         update_time             修改时间
+
    页面分组:da_group
         group_id
         username                网站名称
-        disable                 是否启动(1yes,2no)默认是1
         back                    备注
         create_time             开始时间
         update_time             修改时间
    自定义页面:da_html
         html_id
+        group_id                分组id
         username                名称
         back                    备注
         html                    随机文件名称
-        disable                 是否启动(1yes,2no)默认是1
+        create_time             开始时间
+        update_time             修改时间
+
+   自定义上传文件:da_filetxt
+        filetxt_id
+        username                名称
+        back                    备注
         create_time             开始时间
         update_time             修改时间
 

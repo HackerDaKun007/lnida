@@ -111,6 +111,64 @@ trait Publicconfig{
         }
         return false;
     }
+
+    /*
+     * 返回文件目录列表数据
+     * @param string $value 文件目录
+     * @return array 返回状态码、文件数据
+     * */
+    protected function returnFile($value)
+    {
+        $data = [];
+        if(is_dir($value)){
+            //扫描一个文件夹内的所有文件夹和文件并返回数组
+            $p = scandir($value);
+            foreach ($p as $k => $v){
+                if($v != '.' && $v != '..'){
+                    $data[] = [
+                        'data' => $v,
+                        'key' => $k,
+                    ];
+                }
+            }
+            $code = 1;
+        }else{
+            $code = 0;
+        }
+        return [
+            'code' => $code,
+            'data' => $data,
+        ];
+    }
+    /*
+     * 删除文件夹
+     * @param string $path 文件目录
+     * */
+    protected function delFile($path)
+    {
+        if(is_dir($path)){
+            //扫描一个文件夹内的所有文件夹和文件并返回数组
+            $p = scandir($path);
+            $count = count($p);
+            foreach($p as $k => $v){
+                if($v != '.' && $v != '..'){
+                    //如果是目录则递归子目录，继续操作
+                    if(is_dir($path.$v)){
+                        //子目录中操作删除文件夹和文件
+                        $this->delFile($path.$v.'/');
+                        //目录清空后删除空文件夹
+                        @rmdir($path.$v.'/');
+                    }else{
+                        //如果是文件直接删除
+                        unlink($path.$v);
+                    }
+                }
+                if($count == $k+1){
+                    @rmdir($path);
+                }
+            }
+        }
+    }
     /*
      * 打开文件
      * @param $data 文件目录
@@ -118,16 +176,23 @@ trait Publicconfig{
     protected function openFile($data)
     {
         $fh = fopen($data, 'r');
-        $data = fgets($fh);
+//        $arr = '';
+        $arr = fread($fh, filesize ($data));
+//        while(! feof($fh))
+//        {
+//            $arr .= fgets($fh);
+//        }
         fclose($fh);
-        return $data;
+        return $arr;
     }
     /*
      * 创建文件夹
      * @param $url_times 文件目录
+     * @param bool $bool 判断是否要修改文件名
+     * @param string $rename 新的文件名目录
      * return array 状态码(code),提示语(msg)
      * */
-    protected function FileCreate($url_times)
+    protected function FileCreate($url_times,$bool=false,$rename='')
     {
         //判断目录文件夹是存在
         $code = 0;
@@ -142,6 +207,17 @@ trait Publicconfig{
             }else{
                 $msg = '当前不是一个正确的目录地址';
             }
+        }else if($bool == true && !empty(file_exists($url_times)) && !empty($rename)){
+            $res = iconv("UTF-8", "GBK", $url_times); //旧文件
+            $name = iconv("UTF-8", "GBK", $rename); //新文件
+            if (rename($res, $name))//修改目录
+            {
+                $code = 1;
+                $msg = true;
+            }else{
+                $msg = '修改文件失败';
+            }
+
         }else{
             $code = 1;
             $msg = true;

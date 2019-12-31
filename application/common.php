@@ -43,5 +43,9 @@ function sui($val=8)
 
 
 //
+function josn($val)
+{
+    return json_encode($val);
+}
 
 ?>

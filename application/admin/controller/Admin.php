@@ -37,30 +37,15 @@ class Admin extends Share
         }
         if(request()->isGet()){
             $get = input('get.');
-            $data = [];
-            $count = 0;
-            $page = false;
-            $success = 'error';
-            if(!empty($get['api']) && $get['api'] = 200){
-                $yz = Validate('Comm');
-                $str = $yz->scene('page')->check($get);
-                if(!empty($str)){
-                    $where = [];
-                    if(!empty($get['username'])){
-                        $where[] = ['username','eq',$get['username']];
-                    }if(!empty($get['contact'])){
-                        $where[] = ['contact','like','%'.$get['contact'].'%'];
-                    }if(!empty($get['disable'])){
-                        $where[] = ['disable','eq',$get['disable']];
-                    }
-                    $model = $this->model->Show($get,$where);
-                    $data = $model['data'];
-                    $count = $model['count'];
-                    $page = true;
-                }
+            $where = [];
+            if(!empty($get['username'])){
+                $where[] = ['username','eq',$get['username']];
+            }if(!empty($get['contact'])){
+                $where[] = ['contact','like','%'.$get['contact'].'%'];
+            }if(!empty($get['disable'])){
+                $where[] = ['disable','eq',$get['disable']];
             }
-
-            uiJson($data,$count,$page,$success);
+            $this->yzShow($get,$where);
             exit;
         }
         return view();

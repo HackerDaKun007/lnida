@@ -11,6 +11,10 @@ return [
 
     //文件地址
     'fileIndex' => '../application/index/view/index/',
+
+    //缓存名称
+    'groupWhole' => 'groupWhole' //缓存自定义页面分组
+    ,'channelWhole' => 'channelWhole' //缓存自定义页面分组
 ];
 
 ?>

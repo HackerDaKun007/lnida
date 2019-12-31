@@ -22,5 +22,29 @@ class Share extends COntroller
         }
 
     }
+
+    /*
+     * 验证展示数据，并输出
+     * @param array 验证数据
+     * @param array 条件查询
+     * */
+    protected function yzShow($get,$where=[])
+    {
+        $data = [];
+        $count = 0;
+        $page = false;
+        $success = 'error';
+        if(!empty($get['api']) && $get['api'] = 200){
+            $yz = Validate('Comm');
+            $str = $yz->scene('page')->check($get);
+            if(!empty($str)){
+                $model = $this->model->Show($get,$where);
+                $data = $model['data'];
+                $count = $model['count'];
+                $page = true;
+            }
+        }
+        uiJson($data,$count,$page,$success);
+    }
 }
 ?>

@@ -1,18 +1,22 @@
-layui.use(['form', 'table'], function () {
+layui.use(['form', 'table','upload'], function () {
     var form = layui.form,
+        upload = layui.upload,
         table = layui.table;
 
-    var adminUrl = $.Public.url + 'html/';
+    var adminUrl = $.Public.url + 'chnumber/';
     var tableIns = table.render({
         elem: '#content'
         ,where:{api:200}
         , url: adminUrl + 'index'
         , cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
         , cols: [[
-            {field: 'html_id', width: 80, title: 'ID', sort: true}
-            , {field: 'username', width: '', title: '网页名称'}
-            , {field: 'user', width: 120, title: '分组名称' }
-            , {field: 'back', width: 230, title: '备注信息' }
+            {field: 'chnumber_id', width: 80, title: 'ID', sort: true}
+            , {field: 'username', width: '', title: '渠道号'}
+            , {field: 'user', width: '', title: '渠道分组'}
+            , {field: 'back', width: 210, title: '备注'}
+            ,{field:'display', width:140, title: '是否启用',templet: '#start'}
+            // ,{field:'start', width:140, title: '权限验证' ,hide:true}
+            // ,{field:'listed_id', hide:true, title: '权限ID'}
             , {field: 'create_time', width: 200, title: '添加时间'}
             , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 180}
         ]]
@@ -33,52 +37,46 @@ layui.use(['form', 'table'], function () {
         return false;
     });
 
+    var json = $('#channel').html();
+    if(json != null && json != ''){
+        json = JSON.parse(json);
+    }
     function _html(url,data=''){
-        let img = $.Public.html+'/public/portrait-1.png';
-        if($.Public.values(data['img'])){
-            img = data['img'];
-        }
-        let option = '';
-        if(Group != null && Group != ''){
-            // Group = JSON.parse(Group);
-            for(i of Group){
+        let Jsondata = '';
+        if(json != null && json != ''){
+            for(i of json){
                 let selected = '';
-                if(i.group_id == data.group_id){
+                if(i['channel_id'] == data['channel_id']){
                     selected = 'selected';
                 }
-                option += '<option '+selected+'  value="'+i.group_id+'" >'+i.username+'</option>';
+                Jsondata += '<option '+selected+' value="'+i['channel_id']+'">'+i['username']+'</option>';
             }
         }
         return '<form class="layui-form layui-form-pane padding-10" action="'+url+'">' +
             '<div class="layui-form-item">\n' +
-            '    <label class="layui-form-label">网站名称</label>\n' +
+            '    <label class="layui-form-label">渠道号</label>\n' +
             '    <div class="layui-input-block">\n' +
-            '      <input type="text" name="username" value="'+$.Public.values(data['username'])+'" placeholder="请输入网站名称" autocomplete="off" class="layui-input">\n' +
+            '      <input type="text" name="username" value="'+$.Public.values(data['username'])+'" placeholder="请输入渠道号" autocomplete="off" class="layui-input">\n' +
+            '    </div></div>\n' +
+            '<div class="layui-form-item">\n' +
+            '    <label class="layui-form-label">渠道组</label>\n' +
+            '    <div class="layui-input-block">\n' +
+            '<select name="channel_id"  lay-search=""><option value="">直接选择或搜索选择渠道组</option>'+Jsondata+'</select>' +
+            '    </div></div>\n' +
+            '<div class="layui-form-item">\n' +
+            '    <label class="layui-form-label">备注信息</label>\n' +
+            '    <div class="layui-input-block">\n' +
+            '      <input type="text" name="back" value="'+$.Public.values(data['back'])+'" placeholder="请输入备注信息" autocomplete="off" class="layui-input">\n' +
             '    </div>\n' +
             '</div>' +
             '<div class="layui-form-item">\n' +
-            '    <div class="layui-inline">\n' +
-            '      <label class="layui-form-label">备注信息</label>\n' +
-            '      <div class="layui-input-inline">\n' +
-            '        <input type="text" name="back" value="'+$.Public.values(data['back'])+'" placeholder="请输入备注信息" autocomplete="off" class="layui-input">\n' +
-            '      </div>\n' +
-            '    </div>\n' +
-            '<div class="layui-inline">\n' +
-            '    <label class="layui-form-label">选择分组</label>\n' +
-            '    <div class="layui-input-block ">\n' +
-            ' <select name="group_id" lay-search="">\n' +
-            '  <option value="">直接或搜索选择分组信息</option>'+option +
-            ' </select>' +
+            '    <label class="layui-form-label">是否启用</label>\n' +
+            '    <div class="layui-input-block public-border-e6">\n' +
+            '<input type="radio" name="disable" value="1" title="启用" '+$.Public.checked(1,$.Public.values(data['disable']))+'  checked>\n' +
+            ' <input type="radio" name="disable" value="2" title="禁用" '+$.Public.checked(2,$.Public.values(data['disable']))+' >' +
             '    </div>\n' +
             '</div>' +
-            '</div>' +
-            '<div class="layui-form-item layui-form-text">\n' +
-            '    <label class="layui-form-label">文本域</label>\n' +
-            '    <div class="layui-input-block">\n' +
-            '      <textarea placeholder="请输入内容" name="count" class="layui-textarea public-height-300 html-textarea"></textarea>\n' +
-            '    </div>\n' +
-            '  </div>' +
-            '<input name="html_id" type="hidden" class="html_id" value="'+$.Public.values(data['html_id'])+'" /> ' +
+            '<input name="chnumber_id" type="hidden" class="chnumber_id" value="'+$.Public.values(data['chnumber_id'])+'" /> ' +
             '<div class="layui-form-item public-button-center">' +
             '   <button class="layui-btn " type="button"  lay-submit="" lay-filter="submit">提交</button>' +
             '</div>' +
@@ -95,27 +93,15 @@ layui.use(['form', 'table'], function () {
                 arr:'',
                 data:function(msg){
                     layer.open({
-                        type: 1
-                        , title: '修改页面'
-                        , area: ['680px', '660px']
+                        zIndex: 1001
+                        , type: 1
+                        , title: '修改渠道组名称'
+                        , area: ['350px', '350px']
                         , closeBtn: 1
                         , shade: 0.3
                         , id: 'LA_layer'
                         , moveType: 1
                         , content:_html(dataName,data)
-                        ,success: function(layero, index){
-                            $.Public.ajax({
-                                type:'post'
-                                ,url:adminUrl+'index'
-                                ,data:{id:data.html_id}
-                                ,load:function(res){
-                                    if(res != '' && res != null){
-                                        let rse = JSON.parse(res);
-                                        $('.html-textarea').val(rse.data);
-                                    }
-                                }
-                            });
-                        }
                     })
                     form.render();
                 }
@@ -126,7 +112,7 @@ layui.use(['form', 'table'], function () {
                 $.Public.deal({
                     type:'post',
                     url:dataName,
-                    data:{html_id:data.html_id},
+                    data:{chnumber_id:data.chnumber_id},
                     load:function(msg){
                         tableIns.reload(); //重新载录数据
                     }
@@ -146,9 +132,10 @@ layui.use(['form', 'table'], function () {
             arr:'',
             data:function(msg){
                 layer.open({
-                    type: 1
-                    , title: '添加页面'
-                    , area: ['680px', '660px']
+                    zIndex: 1001
+                    , type: 1
+                    , title: '添加渠道组名称'
+                    , area: ['350px', '350px']
                     , closeBtn: 1
                     , shade: 0.3
                     , id: 'LA_layer'
@@ -159,7 +146,6 @@ layui.use(['form', 'table'], function () {
             }
         })
     });
-
 
     form.on('submit(submit)',function(data){
         $.Public.deal({
